@@ -1,5 +1,3 @@
-@using Microsoft.AspNetCore.Components.Web
-
 @page "/"
 
 <!-- Página Todo.razor usando apenas classes padrão do Tailwind e Heroicons SVG -->
@@ -17,15 +15,17 @@
     <!-- Entrada de Tarefa -->
     <div class="flex gap-3 mb-8">
         <input @bind="newTask" @bind:event="oninput" @onkeypress="OnKeyPress" placeholder="Adicione sua tarefa..."
-               class="flex-1 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-600 transition-all text-sm" />
+            class="flex-1 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-600 transition-all text-sm" />
         <button @onclick="AddTask"
-                class="bg-blue-600 text-white px-6 py-3 rounded-md whitespace-nowrap hover:bg-blue-700 active:bg-blue-800 transition-all flex items-center gap-2">
+            class="bg-blue-600 text-white px-6 py-3 rounded-md whitespace-nowrap hover:bg-blue-700 active:bg-blue-800 transition-all flex items-center gap-2">
             <span class="w-5 h-5 flex items-center justify-center">
                 <!-- Heroicons: Plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-            </span>
+                   
+             </span >
             <span>Adicionar</span>
         </button>
     </div>
@@ -34,11 +34,13 @@
     <div class="flex justify-between items-center mb-4">
         <div class="flex items-center gap-2">
             <input type="checkbox" @onchange="ToggleSelectAllPending" checked="@AllPendingSelected"
-                   class="appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-2 focus:ring-blue-400 transition-all cursor-pointer" />
+                class="appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-2 focus:ring-blue-400 transition-all cursor-pointer" />
             <span class="text-sm text-gray-600">Selecionar todas</span>
-        </div>
-        <button @onclick="CompleteSelected" class="text-sm text-blue-600 hover:text-blue-800" style="@(SelectedPendingCount > 0 ? "" : "display:none")">
+      </div>
+        <button @onclick="CompleteSelected" class="text-sm text-blue-600 hover:text-blue-800"
+            style="@(SelectedPendingCount > 0 ? "" : "display:none")">
             Concluir selecionadas
+           
         </button>
     </div>
 
@@ -47,8 +49,11 @@
         <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
             <span class="w-5 h-5 flex items-center justify-center text-blue-600">
                 <!-- Heroicons: Clock -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5">
+                   
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
                 </svg>
             </span>
             Pendentes
@@ -64,15 +69,19 @@
                 {
                     <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-md transition-all">
                         <input type="checkbox" @bind="task.Selected" @bind:event="onchange"
-                               class="appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-2 focus:ring-blue-400 transition-all cursor-pointer mt-1" />
+                            class="appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 focus:ring-2 focus:ring-blue-400 transition-all cursor-pointer mt-1" />
                         <div class="flex-1">
                             <p class="text-gray-800">@task.Text</p>
                             <p class="text-xs text-gray-500 mt-1">Criada em @task.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
                         </div>
                         <button class="ml-2 text-green-600 hover:text-green-800" @onclick="() => CompleteTask(task)">
                             <!-- Heroicons: Check Circle -->
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                               
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" vi
+                e                   wBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
                             </svg>
                         </button>
                     </div>
@@ -84,10 +93,14 @@
     <!-- Lista de Concluídas -->
     <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
         <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-            <span class="w-5 h-5 flex items-center justify-center text-green-500">
+                   
+            <span   class="w-5 h-5 flex items-center justify-center text
+     -                  green-500">
                 <!-- Heroicons: Check Double (use Check Circle for simplicidade) -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
                 </svg>
             </span>
             Concluídas (últimos 7 dias)
@@ -100,24 +113,34 @@
             else
             {
                 @foreach (var task in CompletedTasks)
-                {
+                               
+                 { 
+                                   
                     <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-md">
                         <div class="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-1 text-green-500">
                             <!-- Heroicons: Check Circle -->
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                
+                                    d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                                
                             </svg>
                         </div>
                         <div class="flex-1">
                             <p class="text-gray-600 line-through">@task.Text</p>
                             <div class="flex justify-between mt-1">
-                                <p class="text-xs text-gray-500">Concluída em @task.CompletedAt?.ToString("dd/MM/yyyy HH:mm")</p>
-                                <p class="text-xs text-orange-500">Será removida em @GetDaysRemaining(task.CompletedAt) dia(s)</p>
+                                <p class="text-xs text-gray-500">Concluída em @task.CompletedAt?.ToString("dd/MM/yyyy HH:mm")
+                                </p>
+                                <p class="text-xs text-orange-500">Será removida em @GetDaysRemaining(task.CompletedAt) dia(s)
+                                </p>
                             </div>
                         </div>
                     </div>
                 }
-            }
+               
+              }
+                   
         </div>
     </div>
 
@@ -125,8 +148,10 @@
     <div class="bg-blue-50 rounded-lg p-4 flex items-start gap-3">
         <span class="w-5 h-5 flex items-center justify-center text-blue-500 mt-0.5">
             <!-- Heroicons: Information Circle -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9.75h.008v.008h-.008V9.75zm.75 3.75v-1.5m0 0a.75.75 0 10-1.5 0v1.5a.75.75 0 001.5 0zm0 0v1.5m0 0a.75.75 0 01-1.5 0v-1.5a.75.75 0 011.5 0zM12 21a9 9 0 100-18 9 9 0 000 18z" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M11.25 9.75h.008v.008h-.008V9.75zm.75 3.75v-1.5m0 0a.75.75 0 10-1.5 0v1.5a.75.75 0 001.5 0zm0 0v1.5m0 0a.75.75 0 01-1.5 0v-1.5a.75.75 0 011.5 0zM12 21a9 9 0 100-18 9 9 0 000 18z" />
             </svg>
         </span>
         <p class="text-sm text-blue-700">
@@ -135,119 +160,6 @@
     </div>
 </div>
 
-@code {
-    private string newTask = string.Empty;
-
-    private List<TodoTask> Tasks = new();
-
-    protected override void OnInitialized()
-    {
-        // Carregar tarefas do armazenamento local (poderia ser de um banco futuramente)
-        Tasks = TasksStorage.Load();
-        RemoveExpiredCompletedTasks();
-    }
-
-    private void AddTask()
-    {
-        if (!string.IsNullOrWhiteSpace(newTask))
-        {
-            Tasks.Add(new TodoTask
-            {
-                Id = Guid.NewGuid(),
-                Text = newTask.Trim(),
-                CreatedAt = DateTime.Now,
-                Completed = false
-            });
-            newTask = string.Empty;
-            SaveTasks();
-        }
-    }
-
-    private void CompleteTask(TodoTask task)
-    {
-        task.Completed = true;
-        task.CompletedAt = DateTime.Now;
-        task.Selected = false;
-        SaveTasks();
-    }
-
-    private void CompleteSelected()
-    {
-        foreach (var task in PendingTasks.Where(t => t.Selected))
-        {
-            CompleteTask(task);
-        }
-    }
-
-    private void ToggleSelectAllPending(ChangeEventArgs e)
-    {
-        bool selectAll = (bool)e.Value;
-        foreach (var task in PendingTasks)
-        {
-            task.Selected = selectAll;
-        }
-    }
-
-    private void OnKeyPress(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            AddTask();
-        }
-    }
-
-    private void SaveTasks()
-    {
-        TasksStorage.Save(Tasks);
-        RemoveExpiredCompletedTasks();
-        StateHasChanged();
-    }
-
-    private void RemoveExpiredCompletedTasks()
-    {
-        var now = DateTime.Now;
-        Tasks.RemoveAll(t => t.Completed && t.CompletedAt.HasValue && (now - t.CompletedAt.Value).TotalDays > 7);
-    }
-
-    private int GetDaysRemaining(DateTime? completedAt)
-    {
-        if (completedAt == null) return 0;
-        var expiry = completedAt.Value.AddDays(7);
-        var days = (expiry - DateTime.Now).Days;
-        return days > 0 ? days : 0;
-    }
-
-    private List<TodoTask> PendingTasks => Tasks.Where(t => !t.Completed).ToList();
-    private List<TodoTask> CompletedTasks => Tasks.Where(t => t.Completed).ToList();
-    private int SelectedPendingCount => PendingTasks.Count(t => t.Selected);
-    private bool AllPendingSelected => PendingTasks.Count > 0 && PendingTasks.All(t => t.Selected);
-
-    public class TodoTask
-    {
-        public Guid Id { get; set; }
-        public string Text { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
-        public bool Completed { get; set; }
-        public DateTime? CompletedAt { get; set; }
-        public bool Selected { get; set; }
-    }
-
-    // Simulação de armazenamento local (pode ser substituído por banco de dados futuramente)
-    public static class TasksStorage
-    {
-        private static List<TodoTask>? _cache;
-        public static List<TodoTask> Load()
-        {
-            if (_cache != null) return _cache;
-            // Aqui poderia ser implementado o carregamento de um banco ou arquivo
-            _cache = new List<TodoTask>();
-            return _cache;
-        }
-        public static void Save(List<TodoTask> tasks)
-        {
-            _cache = tasks;
-        }
-    }
+@code{
+    
 }
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Web

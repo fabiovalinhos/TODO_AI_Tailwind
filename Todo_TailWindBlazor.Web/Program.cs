@@ -1,10 +1,13 @@
 using Todo_TailWindBlazor.Web.Components;
+using Todo_TailWindBlazor.Web.Bd_Servico;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<TasksStorage>();
 
 var app = builder.Build();
 
