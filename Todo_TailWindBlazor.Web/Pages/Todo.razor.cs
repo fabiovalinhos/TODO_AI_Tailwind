@@ -1,22 +1,39 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System.Globalization;
+using Todo_TailWindBlazor.Web.Dominio;
+using Todo_TailWindBlazor.Web.Bd_Servico;
 
 namespace Todo_TailWindBlazor.Web.Pages
 {
     public partial class Todo : ComponentBase
     {
+        [Inject]
+        public TasksStorage? TasksStorage { get; set; }
+
         private string newTask = string.Empty;
         private List<TodoTask> Tasks = new();
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            // Carregar tarefas do armazenamento local (poderia ser de um banco futuramente)
-            Tasks = TasksStorage.Load();
-            RemoveExpiredCompletedTasks();
+
         }
 
-        private void AddTask()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                if (TasksStorage != null)
+                {
+                    Tasks = await TasksStorage.LoadTasksAsync();
+                    await RemoveExpiredCompletedTasksAsync();
+                }
+
+
+                await SaveTasksAsync();
+            }
+        }
+
+        private async Task AddTaskAsync()
         {
             if (!string.IsNullOrWhiteSpace(newTask))
             {
@@ -28,54 +45,52 @@ namespace Todo_TailWindBlazor.Web.Pages
                     Completed = false
                 });
                 newTask = string.Empty;
-                SaveTasks();
+                await SaveTasksAsync();
             }
         }
 
-        private void CompleteTask(TodoTask task)
+        private async Task CompleteTaskAsync(TodoTask task)
         {
             task.Completed = true;
             task.CompletedAt = DateTime.Now;
             task.Selected = false;
-            SaveTasks();
+            await SaveTasksAsync();
         }
 
-        private void CompleteSelected()
+        private async Task CompleteSelectedAsync()
         {
             foreach (var task in PendingTasks.Where(t => t.Selected))
             {
-                CompleteTask(task);
+                await CompleteTaskAsync(task);
             }
         }
 
-        private void ToggleSelectAllPending(ChangeEventArgs e)
-        {
-            bool selectAll = (bool)e.Value;
-            foreach (var task in PendingTasks)
-            {
-                task.Selected = selectAll;
-            }
-        }
-
-        private void OnKeyPress(KeyboardEventArgs e)
+        private async Task OnKeyPress(KeyboardEventArgs e)
         {
             if (e.Key == "Enter")
             {
-                AddTask();
+                await AddTaskAsync();
             }
         }
 
-        private void SaveTasks()
+        private async Task SaveTasksAsync()
         {
-            TasksStorage.Save(Tasks);
-            RemoveExpiredCompletedTasks();
-            StateHasChanged();
+            if (TasksStorage != null)
+            {
+                await TasksStorage.SaveTasksAsync(Tasks);
+                await RemoveExpiredCompletedTasksAsync();
+                StateHasChanged();
+            }
         }
 
-        private void RemoveExpiredCompletedTasks()
+        private async Task RemoveExpiredCompletedTasksAsync()
         {
             var now = DateTime.Now;
             Tasks.RemoveAll(t => t.Completed && t.CompletedAt.HasValue && (now - t.CompletedAt.Value).TotalDays > 7);
+            if (TasksStorage != null)
+            {
+                await TasksStorage.SaveTasksAsync(Tasks); // Save changes after removing expired tasks
+            }
         }
 
         private int GetDaysRemaining(DateTime? completedAt)
@@ -91,30 +106,12 @@ namespace Todo_TailWindBlazor.Web.Pages
         private int SelectedPendingCount => PendingTasks.Count(t => t.Selected);
         private bool AllPendingSelected => PendingTasks.Count > 0 && PendingTasks.All(t => t.Selected);
 
-        public class TodoTask
+        private void ToggleSelectAllPending(ChangeEventArgs e)
         {
-            public Guid Id { get; set; }
-            public string Text { get; set; } = string.Empty;
-            public DateTime CreatedAt { get; set; }
-            public bool Completed { get; set; }
-            public DateTime? CompletedAt { get; set; }
-            public bool Selected { get; set; }
-        }
-
-        // Simulação de armazenamento local (pode ser substituído por banco de dados futuramente)
-        public static class TasksStorage
-        {
-            private static List<TodoTask>? _cache;
-            public static List<TodoTask> Load()
+            bool selectAll = !AllPendingSelected;
+            foreach (var task in PendingTasks)
             {
-                if (_cache != null) return _cache;
-                // Aqui poderia ser implementado o carregamento de um banco ou arquivo
-                _cache = new List<TodoTask>();
-                return _cache;
-            }
-            public static void Save(List<TodoTask> tasks)
-            {
-                _cache = tasks;
+                task.Selected = selectAll;
             }
         }
     }
