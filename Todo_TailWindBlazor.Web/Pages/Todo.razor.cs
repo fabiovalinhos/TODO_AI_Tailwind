@@ -10,7 +10,13 @@ namespace Todo_TailWindBlazor.Web.Pages
         [Inject]
         public TasksStorage? TasksStorage { get; set; }
 
-        private string newTask = string.Empty;
+        private string _newTask = string.Empty;
+        public string newTask
+        {
+            get => _newTask;
+            set => _newTask = value;
+        }
+
         private List<TodoTask> Tasks = new();
 
         protected override async Task OnInitializedAsync()
@@ -27,9 +33,7 @@ namespace Todo_TailWindBlazor.Web.Pages
                     Tasks = await TasksStorage.LoadTasksAsync();
                     await RemoveExpiredCompletedTasksAsync();
                 }
-
-
-                await SaveTasksAsync();
+                // Remover await SaveTasksAsync(); aqui para não sobrescrever input
             }
         }
 
